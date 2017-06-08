@@ -68,8 +68,7 @@ function goForward(rover) {
   //if rover finds an obstacle it shoud stop executing the commands, stop at the las
   //possible position and report that it found an obsacle.
   if(planet.space[myRover.position[0]][myRover.position[1]] === '*') {
-    count++;
-   // console.log(planet.space[myRover.position[0]][myRover.position[1]], count)
+
     return "Obstacle found.";
   }
 
@@ -92,7 +91,6 @@ function move(commands) {
       break;
     }
 
-    //goForward(myRover)
     //it will move once for each command on the list and will eventually display its new position
   }
   return obst;
