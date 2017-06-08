@@ -24,6 +24,8 @@ var setSpace = function(height, width) {
   });
 };
 
+//this function will add obstacles in the space of the planet
+//the difficulty will determine how many obstacles will be in each row
 var setObstacles = function(difficulty) {
   for(var j = 0; j < difficulty; j++) {
     for(var k = 0; k < planet.space.length; k ++) {
