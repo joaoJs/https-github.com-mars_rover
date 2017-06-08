@@ -1,5 +1,3 @@
-var count = 0;
-
 var myRover = {
   position: [0,0],
   direction: 'N'
