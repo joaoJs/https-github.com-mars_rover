@@ -88,6 +88,7 @@ function move(commands) {
     //therefore we call the changeDirection object and change rover's direction according to the command (n b r l)
     changeDirection[dir]();
     //we finally ask for the rover to move forward with the updated direction
+    //but if next position has an obstacle in it, we return that we found an obstacle
     if (goForward(myRover) === "Obstacle found.") {
       obst = 'Found';
       break;
