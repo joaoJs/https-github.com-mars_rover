@@ -11,7 +11,7 @@ var planet = {
 
 };
 
-//in order to set the space, we will add inner arrays as the vertical rows
+//in order to set the space, we will add inner arrays as the rows
 //and inside each row, empty spaces will be the width.
 var setSpace = function(height, width) {
   for(var i = 0; i < height; i++) {
