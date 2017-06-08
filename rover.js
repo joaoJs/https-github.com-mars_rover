@@ -1,3 +1,5 @@
+var count = 0;
+
 var myRover = {
   position: [0,0],
   direction: 'N'
@@ -24,10 +26,11 @@ var setSpace = function(height, width) {
 
 var setObstacles = function(difficulty) {
   for(var j = 0; j < difficulty; j++) {
-    planet.space.forEach(function(row) {
+    for(var k = 0; k < planet.space.length; k ++) {
+      var row = planet.space[k];
       var i = Math.floor(Math.random() * row.length);
       row[i] = '*';
-    });
+    }
   }
 };
 
@@ -39,7 +42,7 @@ var changeDirection = {
 };
 
 function goForward(rover) {
-  var previousPos = myRover.position;
+
   switch(rover.direction) {
     case 'N':
       rover.position[0]++;
@@ -59,14 +62,14 @@ function goForward(rover) {
   //the rover needs to wrap from one edge of the grid to another
   if(myRover.position[0] === planet.space.length) myRover.position[0] = 0;
   if(myRover.position[0] < 0) myRover.position[0] = planet.space.length - 1;
-  if(myRover.position[1] === planet.space[0].length) myRover.position[0] = 0;
+  if(myRover.position[1] === planet.space[0].length) myRover.position[1] = 0;
   if(myRover.position[1] < 0) myRover.position[1] = planet.space[0].length - 1;
 
   //if rover finds an obstacle it shoud stop executing the commands, stop at the las
   //possible position and report that it found an obsacle.
-  console.log(planet.space[myRover.position[0]][myRover.position[1]]);
   if(planet.space[myRover.position[0]][myRover.position[1]] === '*') {
-    myRover.position = previousPos;
+    count++;
+   // console.log(planet.space[myRover.position[0]][myRover.position[1]], count)
     return "Obstacle found.";
   }
 
@@ -75,6 +78,8 @@ function goForward(rover) {
 }
 
 function move(commands) {
+  var obst = 'not found';
+
   //function move will take a list of commands as input
   for (var i = 0; i < commands.length; i++) {
     //each element in the list will be a new direction command for the rover
@@ -83,12 +88,14 @@ function move(commands) {
     changeDirection[dir]();
     //we finally ask for the rover to move forward with the updated direction
     if (goForward(myRover) === "Obstacle found.") {
-      return "Obstacle found.";
+      obst = 'Found';
+      break;
     }
 
-    goForward(myRover);
+    //goForward(myRover)
     //it will move once for each command on the list and will eventually display its new position
   }
+  return obst;
 }
 
 //goForward(myRover);
