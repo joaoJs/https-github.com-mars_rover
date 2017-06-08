@@ -22,11 +22,13 @@ var setSpace = function(height, width) {
   });
 };
 
-var setObstacles = function() {
-  planet.space.forEach(function(row) {
-    var i = Math.floor(Math.random() * row.length);
-    row[i] = '*';
-  });
+var setObstacles = function(difficulty) {
+  for(var j = 0; j < difficulty; j++) {
+    planet.space.forEach(function(row) {
+      var i = Math.floor(Math.random() * row.length);
+      row[i] = '*';
+    });
+  }
 };
 
 var changeDirection = {
@@ -53,17 +55,20 @@ function goForward(rover) {
       break;
   }
 
-  //if rover finds an obstacle it shoud stop executing the commands, stop at the las
-  //possible position and report that it found an obsacle.
-  if(planet.space[myRover.position] === '*') {
-    myRover.position = previousPos;
-    return "Obstacle found.";
-  }
+
   //the rover needs to wrap from one edge of the grid to another
   if(myRover.position[0] === planet.space.length) myRover.position[0] = 0;
   if(myRover.position[0] < 0) myRover.position[0] = planet.space.length - 1;
   if(myRover.position[1] === planet.space[0].length) myRover.position[0] = 0;
   if(myRover.position[1] < 0) myRover.position[1] = planet.space[0].length - 1;
+
+  //if rover finds an obstacle it shoud stop executing the commands, stop at the las
+  //possible position and report that it found an obsacle.
+  console.log(planet.space[myRover.position[0]][myRover.position[1]]);
+  if(planet.space[myRover.position[0]][myRover.position[1]] === '*') {
+    myRover.position = previousPos;
+    return "Obstacle found.";
+  }
 
   console.log("New Rover Position: [" + rover.position[0] + ", " + rover.position[1] + "]");
 
@@ -77,6 +82,10 @@ function move(commands) {
     //therefore we call the changeDirection object and change rover's direction according to the command (n b r l)
     changeDirection[dir]();
     //we finally ask for the rover to move forward with the updated direction
+    if (goForward(myRover) === "Obstacle found.") {
+      return "Obstacle found.";
+    }
+
     goForward(myRover);
     //it will move once for each command on the list and will eventually display its new position
   }
